@@ -1,6 +1,7 @@
 from pygls.lsp.server import LanguageServer
 from lsprotocol import types
 import os
+from pathlib import Path
 
 server = LanguageServer("example-server", "v0.1")
 
@@ -24,11 +25,14 @@ def completions(params: types.CompletionParams):
         types.CompletionItem(label="here"),
     ]
 
-    log_msg("This file: " + str(os.path.abspath(__file__)))
-    log_msg("ls: " + str(os.listdir('.')))
+    _this_file = Path(__file__)
+    log_msg("This file: " + str(_this_file))
+    log_msg("ls: " + str(list(_this_file.parent.iterdir())))
     more_completions = []
     try:
-        _read = open("../../.myHint")
+        _path = _this_file.parent.parent.parent / ".myHints"
+        log_msg("Try open: " + str(_path))
+        _read = open(_path)
         more_completions = [types.CompletionItem(label=item.strip()) for item in _read.readlines()]
     except Exception as e:
         log_msg(str(e))
