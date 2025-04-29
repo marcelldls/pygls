@@ -3,6 +3,8 @@ from lsprotocol import types
 
 server = LanguageServer("example-server", "v0.1")
 
+def log_error(message: str):
+    server.window_show_message(types.ShowMessageParams(types.MessageType.Info,message))
 
 @server.feature(
     types.TEXT_DOCUMENT_COMPLETION,
@@ -15,14 +17,21 @@ def completions(params: types.CompletionParams):
     # if not current_line.endswith("hello."):
     #     return []
 
+    server.window_show_message(types.ShowMessageParams(types.MessageType.Info,"ssss"))
+
     base_completions = [
         types.CompletionItem(label="marcell"),
         types.CompletionItem(label="was"),
         types.CompletionItem(label="here"),
     ]
 
-    _read = open("../../.myHints")
-    more_completions = [types.CompletionItem(label=item.strip()) for item in _read.readlines()]
+    more_completions = []
+    try:
+        _read = open("../../.myHint")
+        more_completions = [types.CompletionItem(label=item.strip()) for item in _read.readlines()]
+    except Exception as e:
+        log_error(str(e))
+
 
     return base_completions + more_completions
 
