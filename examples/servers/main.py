@@ -1,9 +1,10 @@
 from pygls.lsp.server import LanguageServer
 from lsprotocol import types
+import os
 
 server = LanguageServer("example-server", "v0.1")
 
-def log_error(message: str):
+def log_msg(message: str):
     server.window_show_message(types.ShowMessageParams(types.MessageType.Info,message))
 
 @server.feature(
@@ -25,12 +26,13 @@ def completions(params: types.CompletionParams):
         types.CompletionItem(label="here"),
     ]
 
+    log_msg(str(os.listdir('.')))
     more_completions = []
     try:
         _read = open("../../.myHint")
         more_completions = [types.CompletionItem(label=item.strip()) for item in _read.readlines()]
     except Exception as e:
-        log_error(str(e))
+        log_msg(str(e))
 
 
     return base_completions + more_completions
