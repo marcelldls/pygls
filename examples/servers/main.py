@@ -24,7 +24,8 @@ def completions(params: types.CompletionParams):
         types.CompletionItem(label="here"),
     ]
 
-    log_msg("ls:" + str(os.listdir('.')))
+    log_msg("This file: " + str(os.path.abspath(__file__)))
+    log_msg("ls: " + str(os.listdir('.')))
     more_completions = []
     try:
         _read = open("../../.myHint")
