@@ -18,15 +18,13 @@ def completions(params: types.CompletionParams):
     # if not current_line.endswith("hello."):
     #     return []
 
-    server.window_show_message(types.ShowMessageParams(types.MessageType.Info,"ssss"))
-
     base_completions = [
         types.CompletionItem(label="marcell"),
         types.CompletionItem(label="was"),
         types.CompletionItem(label="here"),
     ]
 
-    log_msg(str(os.listdir('.')))
+    log_msg("ls:" + str(os.listdir('.')))
     more_completions = []
     try:
         _read = open("../../.myHint")
