@@ -15,11 +15,16 @@ def completions(params: types.CompletionParams):
     # if not current_line.endswith("hello."):
     #     return []
 
-    return [
+    base_completions = [
         types.CompletionItem(label="marcell"),
         types.CompletionItem(label="was"),
         types.CompletionItem(label="here"),
     ]
+
+    _read = open("../../.myHints")
+    more_completions = [types.CompletionItem(label=item.strip()) for item in _read.readlines()]
+
+    return base_completions + more_completions
 
 
 if __name__ == "__main__":
